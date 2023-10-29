@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta theme="#000000">
+    <title>SecureVault</title>
+    <link rel="shortcut icon" href="img/vault.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    .artboard-demo {
+        width: 100%;
+        height: 100%;
+        background: url('/img/free.jpg') no-repeat center;
+        background-size: cover;
+    }
+</style>
+<body data-theme="acid" class="text-white">
+    <div style="border-bottom: solid 1px orange;" class="navbar bg-black">
+        <div class="flex-1">
+            <img width="30" src="img/vault.svg" alt="logo">
+
+          <a style="font-weight: 800; margin-left: 10px;" class="normal-case text-xl">SecureVault</a>
+        </div>
+        <div class="flex-none">
+          <ul class="menu menu-horizontal px-1">
+            <% if (authenticated){ %>
+                <li><a href="/dashboard" class="text-lg">Dashboard
+                    <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 15">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"/>
+                      </svg>
+                </a></li>
+            <% } else { %>
+                <li><a href="/login" class="text-lg">Login
+                    <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 15">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"/>
+                      </svg>
+                </a></li>
+            <% } %>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero min-h-screen bg-black">
+        <div class="flex-col lg:flex-row-reverse">
+          <div>
+            <div class="my-8 flex flex-row justify-center">
+                <img width="400" src="img/cloud.jpg" class="rounded-lg shadow-2xl" />
+            </div>
+            <h1 style="color: rgb(234, 106, 8); font-weight: 800;" class="text-5xl md:text-7xl  text-center">SecureVault</h1>
+            <p class="py-6 text-center">Store your files in cloud on the go!</p>
+            <div class="flex flex-row justify-center items-center">
+                <% if (authenticated){ %>
+                    <a href="/dashboard">
+                        <button class="btn btn-secondary text-white">Dashboard
+                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 15">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"/>
+                              </svg>
+                        </button>
+                    </a>
+                <% } else { %>
+                    <a href="/login">
+                        <button class="btn btn-secondary text-white">Get Started
+                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 15">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 7.5h11m0 0L8 3.786M12 7.5l-4 3.714M12 1h3c.53 0 1.04.196 1.414.544.375.348.586.82.586 1.313v9.286c0 .492-.21.965-.586 1.313A2.081 2.081 0 0 1 15 14h-3"/>
+                              </svg>
+                        </button>
+                    </a>
+                <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>

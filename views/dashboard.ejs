@@ -1,0 +1,233 @@
+<%- include("partials/header") %>
+
+    <link rel="stylesheet" href="styles/awn.css">
+    </link>
+    <script src="utils/js/index.var.js"></script>
+
+    <%- include("partials/navbar") %>
+
+        <section>
+            <div class="w-full my-10 flex justify-center">
+                <input id="search" autocomplete="off" type="text" placeholder="Search for files "
+                    class="input input-bordered input-secondary w-full max-w-xs" />
+
+            </div>
+            <!-- Table section -->
+
+            <div class="container mx-auto px-4 mt-8">
+                <h2 class="text-2xl font-bold mb-4 text-center">Your Files</h2>
+                <div class="mt-4 mb-6" style="float: right;">
+                    <button onclick="my_modal_1.showModal()" class="btn text-white btn-sm md:btn-md btn-secondary">
+                        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="m14.707 4.793-4-4a1 1 0 0 0-1.416 0l-4 4a1 1 0 1 0 1.416 1.414L9 3.914V12.5a1 1 0 0 0 2 0V3.914l2.293 2.293a1 1 0 0 0 1.414-1.414Z" />
+                            <path
+                                d="M18 12h-5v.5a3 3 0 0 1-6 0V12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
+                        </svg>
+                        Upload Files</button>
+                </div>
+                <div class="w-full mb-8 overflow-x-auto">
+                    <% if (files.length < 5){ %>
+                        <table style="margin-bottom: 18rem; border: solid 2.5px rgb(244, 96, 11); border-radius: 30px;"
+                            class="w-full whitespace-nowrap">
+                            <% } else { %>
+                                <table
+                                    style="margin-bottom: 5rem; border: solid 2.5px rgb(244, 96, 11); border-radius: 30px;"
+                                    class="w-full whitespace-nowrap">
+                                    <% } %>
+                                        <thead>
+                                            <tr
+                                                class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                                <th class="px-4 py-3">File Name</th>
+                                                <th class="px-4 py-3">Size</th>
+                                                <th class="px-4 py-3">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+
+                                            <% if(files.length===0) { %>
+                                                <tr>
+                                                    <td colspan='4' class='text-center py-4'>No files found</td>
+                                                </tr>
+                                                <% } else { %>
+                                                    <% files.forEach(function(file){ %>
+                                                        <tr>
+                                                            <td class="px-4 py-3">
+                                                                <%= file.name %> <br><span class="date-font">
+                                                                        <%= (file.lastModified).getDate() %>-<%=
+                                                                                (file.lastModified).toLocaleString('default',
+                                                                                { month: 'short' }); %>-<%=
+                                                                                    (file.lastModified).getFullYear() %>
+                                                                    </span>
+                                                            </td>
+                                                            <td class="px-4 py-3">
+                                                                <div class="badge badge-sm badge-neutral text-white">
+                                                                    <%= file.size %>
+                                                            </td>
+                </div>
+                <!-- <td class="px-4 py-3">2023-10-20</td> -->
+                <td class="px-4 py-3">
+                    <div class="flex flex-wrap gap-2">
+                        <form action="/download-file" method="post">
+                            <input name="object_id" type="hidden" value="<%= file.name %>">
+                            <button class="btn btn-sm btn-success">
+                                <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z" />
+                                    <path
+                                        d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
+                                </svg>
+                            </button>
+                        </form>
+                        <form action="/delete-file" method="post" id="deleteForm"
+                            onsubmit="return confirmDelete(event)">
+                            <input name="object_id" type="hidden" value="<%= file.name %>">
+                            <button class="btn btn-sm btn-error">
+                                <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                    <path
+                                        d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                </tr>
+                <% }) %>
+                    <% } %>
+                        </tbody>
+                        </table>
+
+            </div>
+
+            </div>
+        </section>
+
+
+        <section>
+            <!-- Form Modal -->
+
+            <dialog id="my_modal_1" class="modal">
+                <div class="modal-box">
+                    <h3 style="text-align: center;" class="font-bold text-lg">Upload Files</h3>
+                    <div class="flex flex-row items-center justify-center">
+
+                        <form action="/upload-file" method="post" enctype="multipart/form-data">
+                            <div id="alertdiv"
+                                style="display: none; text-align: center; color: rgb(215, 41, 41); margin-top: 15px;">
+                                <p>File size should be less than 2 MB</p>
+                            </div>
+                            <div class="my-6">
+                                <input required name="file" type="file"
+                                    class="file-input file-input-bordered file-input-secondary w-full max-w-xs" />
+                            </div>
+                            <div class="mt-10 mb-6 flex flex-col items-center">
+                                <button class="btn text-white btn-secondary">
+                                    <svg class="w-4 h-4 text-black dark:text-white" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="m14.707 4.793-4-4a1 1 0 0 0-1.416 0l-4 4a1 1 0 1 0 1.416 1.414L9 3.914V12.5a1 1 0 0 0 2 0V3.914l2.293 2.293a1 1 0 0 0 1.414-1.414Z" />
+                                        <path
+                                            d="M18 12h-5v.5a3 3 0 0 1-6 0V12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    Upload</button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="w-full border-orange-300">
+
+                    <div class="modal-action">
+                        <form method="dialog">
+                            <!-- if there is a button in form, it will close the modal -->
+                            <button class="btn btn-sm">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+        </section>
+
+
+        <script>
+            $(document).ready(function () {
+                $('input[name="file"]').on('change', function (e) {
+                    const file = this.files[0];
+                    if (file.size > 2 * 1024 * 1024) {
+                        $("#alertdiv").show();
+                        $(this).val(''); // Clearing the file input
+                    } else {
+                        $("#alertdiv").hide();
+                    }
+                });
+            });
+        </script>
+        <script>
+            window.onload = () => {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('successMessage')) {
+                    const toast = (message) => {
+                        new AWN({ position: 'top-right' }).success(message, { durations: { success: 3000 } })
+                        setTimeout(() => {
+                            window.location.href = '/dashboard';
+                        }, 3000); // Redirect after 3 seconds
+
+                    };
+                    toast(params.get('successMessage'));
+                } else if (params.get('warningMessage')) {
+                    const toast = (message) => {
+                        new AWN({ position: 'top-right' }).alert(message, { durations: { warning: 3000 } })
+                        setTimeout(() => {
+                            window.location.href = '/dashboard';
+                        }, 3000); // Redirect after 3 seconds
+                    };
+                    toast(params.get('warningMessage'));
+                }
+            };
+        </script>
+
+        <script>
+            $("#search").keyup(function () {
+                var value = this.value.toLowerCase().trim();
+                var found = false;
+
+                $("table tr").each(function (index) {
+                    if (!index) return;
+                    var foundInRow = false;
+                    $(this).find("td").each(function () {
+                        var id = $(this).text().toLowerCase().trim();
+                        if (id.indexOf(value) !== -1) {
+                            foundInRow = true;
+                        }
+                    });
+                    $(this).toggle(foundInRow);
+                    if (foundInRow) {
+                        found = true;
+                    }
+                });
+
+                if (!found) {
+                    $("#no-results").remove(); // Remove existing no results row if it exists
+                    $("table").append("<tr id='no-results'><td colspan='4' class='text-center py-4'>No file found</td></tr>");
+                } else {
+                    $("#no-results").remove(); // Remove no results row if files are found
+                }
+            });
+        </script>
+        <script>
+            let onOk = () => {
+                document.getElementById('deleteForm').submit();
+            };
+
+            function confirmDelete(event) {
+                event.preventDefault(); // Prevent the default form submission
+                new AWN().confirm(
+                    'Are you sure you want to delete this file?',
+                    onOk,
+
+                )
+                // return false; // Prevent form submission until confirmation
+            }
+        </script>
+
+        <%- include("partials/footer") %>
