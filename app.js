@@ -15,11 +15,6 @@ import fileHandlingRoutes from './routes/file-handling.js'
 
 const app = express();
 
-// const MongoStore = new connectMongo(session);
-// const store = new MongoStore({
-//     mongoUrl: 'mongodb+srv://admin-ash:test123@cluster0.yqtxq2l.mongodb.net/secure-vault', // Replace with your MongoDB connection string
-//     collection: 'sessions', // Optional, the default collection name is 'sessions'
-//   });
 
 app.use(session({
     secret: process.env.SESSION_KEY,
